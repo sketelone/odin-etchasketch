@@ -7,6 +7,10 @@ let input = 16;
 createGrid();
 btn.addEventListener('click', newGrid)
 
+let mouseDown = false
+document.body.onmousedown = () => (mouseDown = true)
+document.body.onmouseup = () => (mouseDown = false)
+
 function createGrid(gridSize=16) {
     let squares = gridSize*gridSize;
     for (i=0;i<squares;i++) {
@@ -20,17 +24,19 @@ function createGrid(gridSize=16) {
     }
     const etch = document.querySelectorAll('.etch');
     etch.forEach(etch => {
-        etch.addEventListener('mouseover', changeShade);
+        etch.addEventListener('mouseover', changeRGB);
      });    
 }
 
 function changeColor(e) {
     // console.log(e);
+    if (e.type === 'mouseover' && !mouseDown) return;
     this.classList.add('hover');
 };
 
 function changeRGB(e) {
     // console.log(e);
+    if (e.type === 'mouseover' && !mouseDown) return;
     let r = Math.floor(Math.random()*255);
     let g = Math.floor(Math.random()*255);
     let b = Math.floor(Math.random()*255);
@@ -39,6 +45,7 @@ function changeRGB(e) {
 
 function changeShade(e) {
     // console.log(e);
+    if (e.type === 'mouseover' && !mouseDown) return;
     let rgb = getComputedStyle(this).getPropertyValue("background-color");
     rgb = rgb.replace(/[^\d,.]/g, '').split(',');
     let inc = 25;
